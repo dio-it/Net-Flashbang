@@ -10,28 +10,15 @@ ist.
 ## 1.2. Ziele / Erfolgskriterien
 | Ziel-Nr. | Beschreibung | Wertung (ME / KE) |
 |----------|--------------|-------------------|
-| 1 | Das Pingen und Anzeigen des Ergebnisses einer einzelnen IP-Ad-
-resse muss immer schnell und innerhalb einer Sekunde erfolgen kön-
-nen. | ME |
-| 2 |Das Pingen und Anzeigen des Ergebnisses eines Subnetzes muss
-immer schnell und innerhalb 10 Sekunde erfolgen können.| ME |
-| 3 | Das Pingen und Anzeigen des Ergebnisses aller RFC1918 definier-
-ten Subnetze muss immer schnell und innerhalb 5 Minuten erfolgen
-können. | ME |
-| 4 | Zufügen von Funktionen im Ping Befehl muss immer gewährleistet
-werden | ME |
-| 5 | Die Funktion «-m» oder «--mac» funktioniert immer und gibt die
-MAC-Adresse aller gepingten IP-Adressen zusätzlich an | ME |
-| 6 | Die Funktion «-h» oder «--host» funktioniert immer und gibt den Host-
-namen aller gepingten IP-Adressen zusätzlich an | KE |
-| 7 | Die Funktion «-o» oder «--os» funktioniert immer und gibt die OS-
-Version aller gepingten IP-Adressen zusätzlich an, sofern diese aus-
-lesbar vom Endgerät ist | KE |
-| 8 | Die Funktion «-p» oder «--port» funktioniert immer und gibt alle indivi-
-duelle Portinformationen aller gepingten IP-Adressen zusätzlich an
-sofern diese auslesbar vom Endgerät sind | KE |
-| 9 | Die Auswertung der Ergebnisse wird in eine dynamische Table feh-
-lerfrei ausgegeben | ME |
+| 1 | Das Pingen und Anzeigen des Ergebnisses einer einzelnen IP-Adresse muss immer schnell und innerhalb einer Sekunde erfolgen können. | ME |
+| 2 |Das Pingen und Anzeigen des Ergebnisses eines Subnetzes muss immer schnell und innerhalb 10 Sekunde erfolgen können.| ME |
+| 3 | Das Pingen und Anzeigen des Ergebnisses aller RFC1918 definierten Subnetze muss immer schnell und innerhalb 5 Minuten erfolgen können. | ME |
+| 4 | Zufügen von Funktionen im Ping Befehl muss immer gewährleistet werden | ME |
+| 5 | Die Funktion «-m» oder «--mac» funktioniert immer und gibt die MAC-Adresse aller gepingten IP-Adressen zusätzlich an | ME |
+| 6 | Die Funktion «-h» oder «--host» funktioniert immer und gibt den Hostnamen aller gepingten IP-Adressen zusätzlich an | KE |
+| 7 | Die Funktion «-o» oder «--os» funktioniert immer und gibt die OS-Version aller gepingten IP-Adressen zusätzlich an, sofern diese auslesbar vom Endgerät ist | KE |
+| 8 | Die Funktion «-p» oder «--port» funktioniert immer und gibt alle individuelle Portinformationen aller gepingten IP-Adressen zusätzlich an sofern diese auslesbar vom Endgerät sind | KE |
+| 9 | Die Auswertung der Ergebnisse wird in eine dynamische Table fehlerfrei ausgegeben | ME |
 
 Legende:
 ME:
