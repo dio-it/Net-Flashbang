@@ -1,3 +1,3 @@
-module App/models/ipaddresses
+module App/models
 
 go 1.19
