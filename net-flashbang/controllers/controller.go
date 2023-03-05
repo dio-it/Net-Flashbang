@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"log"
+	"fmt"
 	"net-flashbang/models"
-	"net-flashbang/view/console"
+	"net-flashbang/views/console"
 )
 
-const CommandTest string = "1"
+const CommandPing string = "1"
 
 // Run does the running of the console application
 func Run(enablePersistence bool) {
@@ -16,8 +16,8 @@ func Run(enablePersistence bool) {
 		models.DisableFilePersistence()
 	}
 
-	err := models.Initialize()
-	checkAndHandleErrorWithTermination(err)
+	/*err := models.Initialize()
+	checkAndHandleErrorWithTermination(err)*/
 
 	console.Clear()
 	console.PrintMenu()
@@ -27,12 +27,12 @@ func Run(enablePersistence bool) {
 	}
 }
 
-func checkAndHandleErrorWithTermination(err error) {
+/*unc checkAndHandleErrorWithTermination(err error) {
 	if err != nil {
 		console.PrintError(err)
 		log.Fatal(err)
 	}
-}
+}*/
 
 func executeCommand() {
 	command := console.AskForInput()
@@ -41,11 +41,9 @@ func executeCommand() {
 
 func parseAndExecuteCommand(input string) {
 	switch {
-	case input == CommandTest:
-		console.Test()
-		break
-
-	default:
-		console.PrintMessage("Command not defined. Check menu (c) for available commands.")
+	case input == CommandPing:
+		console.Clear()
+		NewIpAddress := console.AskForIP()
+		fmt.Println(NewIpAddress)
 	}
 }

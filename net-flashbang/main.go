@@ -1,6 +1,6 @@
 package main
 
-import "netflashbang/controllers"
+import "net-flashbang/controllers"
 
 func main() {
 	controllers.Run(true)
