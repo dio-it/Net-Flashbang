@@ -1,6 +1,7 @@
 package ping
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"os/signal"
@@ -9,9 +10,25 @@ import (
 	probing "github.com/prometheus-community/pro-bing"
 )
 
-func Ping(IpAddress string, Timeout *time.Duration, Interval *time.Duration, Count *int, Size *int, Ttl *int, Privileged *bool, Host string) {
+func Ping(NewIpAddress string) {
+	timeout := flag.Duration("t", time.Second*100000, "")
+	interval := flag.Duration("i", time.Second, "")
+	count := flag.Int("c", -1, "")
+	size := flag.Int("s", 24, "")
+	ttl := flag.Int("l", 64, "TTL")
+	privileged := flag.Bool("privileged", false, "")
+	// flag.Usage = func() {
+	// 	fmt.Print()
+	// }
+	flag.Parse()
 
-	pinger, err := probing.NewPinger(Host)
+	// if flag.NArg() == 0 {
+	// 	flag.Usage()
+	// 	return
+	// }
+
+	host := flag.Arg(0)
+	pinger, err := probing.NewPinger(host)
 	if err != nil {
 		fmt.Println("ERROR:", err)
 		return
@@ -42,12 +59,12 @@ func Ping(IpAddress string, Timeout *time.Duration, Interval *time.Duration, Cou
 			stats.MinRtt, stats.AvgRtt, stats.MaxRtt, stats.StdDevRtt)
 	}
 
-	pinger.Count = *Count
-	pinger.Size = *Size
-	pinger.Interval = *Interval
-	pinger.Timeout = *Timeout
-	pinger.TTL = *Ttl
-	pinger.SetPrivileged(*Privileged)
+	pinger.Count = *count
+	pinger.Size = *size
+	pinger.Interval = *interval
+	pinger.Timeout = *timeout
+	pinger.TTL = *ttl
+	pinger.SetPrivileged(*privileged)
 
 	fmt.Printf("PING %s (%s):\n", pinger.Addr(), pinger.IPAddr())
 	err = pinger.Run()

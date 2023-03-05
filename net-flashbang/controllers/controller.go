@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"fmt"
 	"net-flashbang/models"
+	"net-flashbang/models/ping"
 	"net-flashbang/views/console"
 )
 
@@ -44,6 +44,6 @@ func parseAndExecuteCommand(input string) {
 	case input == CommandPing:
 		console.Clear()
 		NewIpAddress := console.AskForIP()
-		fmt.Println(NewIpAddress)
+		ping.Ping(NewIpAddress)
 	}
 }
