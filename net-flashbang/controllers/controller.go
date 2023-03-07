@@ -42,8 +42,11 @@ func executeCommand() {
 func parseAndExecuteCommand(input string) {
 	switch {
 	case input == CommandPing:
+		//clear console
 		console.Clear()
+		//ask for new IP Address
 		NewIpAddress := console.AskForIP()
+		//use ping.go in module for ping the IP 
 		ping.Ping(NewIpAddress)
 	}
 }

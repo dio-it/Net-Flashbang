@@ -27,7 +27,7 @@ func Ping(NewIpAddress string) {
 	// 	return
 	// }
 
-	host := flag.Arg(0)
+	host := NewIpAddress
 	pinger, err := probing.NewPinger(host)
 	if err != nil {
 		fmt.Println("ERROR:", err)
