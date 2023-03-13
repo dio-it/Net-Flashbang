@@ -1,52 +1,94 @@
 package controllers
 
 import (
+	"flag"
+	"fmt"
 	"net-flashbang/models"
-	"net-flashbang/models/ping"
 	"net-flashbang/views/console"
+	"os"
+	"os/signal"
+	"time"
+
+	probing "github.com/prometheus-community/pro-bing"
 )
 
-const CommandPing string = "1"
-
-// Run does the running of the console application
-func Run(enablePersistence bool) {
-	if enablePersistence {
-		models.EnableFilePersistence()
-	} else {
-		models.DisableFilePersistence()
-	}
-
-	/*err := models.Initialize()
-	checkAndHandleErrorWithTermination(err)*/
-
-	console.Clear()
-	console.PrintMenu()
-
-	for true {
-		executeCommand()
-	}
+func PingIP(ip string) models.PingResult {
+	return models.Ping(ip)
 }
 
-/*unc checkAndHandleErrorWithTermination(err error) {
-	if err != nil {
-		console.PrintError(err)
-		log.Fatal(err)
+func PingRange(ipRange string) []models.PingResult {
+	return models.PingRange(ipRange)
+}
+
+func DisplayPingResult(result models.PingResult) {
+	console.DisplayPingResult(result)
+}
+
+func DisplayPingResults(results []models.PingResult) {
+	console.DisplayPingResults(results)
+}
+
+/*func Start() {
+	fmt.Println("Welcome to Net-Flashbang!")
+	inputValue := console.GetIP()
+	if strings.Contains(inputValue, "/") {
+		// CIDR-Range eingegeben
+		pingResults := PingRange(inputValue)
+		DisplayPingResults(pingResults)
+	} else {
+		// IP-Adresse eingegeben
+		// pingResult := PingIP(inputValue)
+		// DisplayPingResult(pingResult)
+		Bang()
 	}
 }*/
 
-func executeCommand() {
-	command := console.AskForInput()
-	parseAndExecuteCommand(command)
-}
+func Bang() {
+	timeout := flag.Duration("t", time.Second*100000, "")
+	interval := flag.Duration("i", time.Second, "")
+	count := flag.Int("c", -1, "")
+	size := flag.Int("s", 24, "")
+	ttl := flag.Int("l", 64, "")
+	privileged := flag.Bool("privileged", false, "")
+	flag.Usage = func() {
+		console.PrintUsage()
+	}
+	flag.Parse()
 
-func parseAndExecuteCommand(input string) {
-	switch {
-	case input == CommandPing:
-		//clear console
-		console.Clear()
-		//ask for new IP Address
-		NewIpAddress := console.AskForIP()
-		//use ping.go in module for ping the IP 
-		ping.Ping(NewIpAddress)
+	if flag.NArg() == 0 {
+		console.PrintUsage()
+		return
+	}
+
+	host := flag.Arg(0)
+	pinger, err := models.NewPinger(host, *count, *size, interval, timeout, ttl, *privileged)
+	if err != nil {
+		console.PrintError("Failed to create pinger: %v\n", err)
+		return
+	}
+
+	// listen for ctrl-C signal
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	go func() {
+		for range c {
+			pinger.Stop()
+		}
+	}()
+
+	pinger.OnRecv = func(pkt *probing.Packet) {
+		console.PrintPacketRecv(pkt)
+	}
+	pinger.OnDuplicateRecv = func(pkt *probing.Packet) {
+		console.PrintPacketRecvDuplicate(pkt)
+	}
+	pinger.OnFinish = func(stats *probing.Statistics) {
+		console.PrintPingStats(stats)
+	}
+
+	fmt.Printf("PING %s (%s):\n", pinger.Addr(), pinger.IPAddr())
+
+	if err := pinger.Run(); err != nil {
+		console.PrintError("Failed to ping target host: %v\n", err)
 	}
 }
