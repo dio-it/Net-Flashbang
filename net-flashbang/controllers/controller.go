@@ -28,21 +28,6 @@ func DisplayPingResults(results []models.PingResult) {
 	console.DisplayPingResults(results)
 }
 
-/*func Start() {
-	fmt.Println("Welcome to Net-Flashbang!")
-	inputValue := console.GetIP()
-	if strings.Contains(inputValue, "/") {
-		// CIDR-Range eingegeben
-		pingResults := PingRange(inputValue)
-		DisplayPingResults(pingResults)
-	} else {
-		// IP-Adresse eingegeben
-		// pingResult := PingIP(inputValue)
-		// DisplayPingResult(pingResult)
-		Bang()
-	}
-}*/
-
 func Bang() {
 	timeout := flag.Duration("t", time.Second*100000, "")
 	interval := flag.Duration("i", time.Second, "")

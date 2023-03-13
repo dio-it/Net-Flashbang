@@ -23,4 +23,5 @@ func main() {
 		// IP-Adresse eingegeben
 		controllers.Bang()
 	}
+
 }

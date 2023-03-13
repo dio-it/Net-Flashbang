@@ -14,6 +14,7 @@ type PingResult struct {
 	IP     string
 	Live   bool
 	Output string
+	Error  error
 }
 
 func Ping(ip string) PingResult {
@@ -25,6 +26,7 @@ func Ping(ip string) PingResult {
 		Live:   err == nil && strings.Contains(string(output), "1 received"),
 		Output: string(output),
 	}
+
 }
 
 func PingRange(ipRange string) []PingResult {
