@@ -9,6 +9,7 @@ import (
 	probing "github.com/prometheus-community/pro-bing"
 )
 
+// DisplayPingResult gibt das Ergebnis eines einzelnen Pingvorgangs aus
 func DisplayPingResult(result models.PingResult) {
 	if result.Live {
 		fmt.Printf("IP %s is live.\n", result.IP)
@@ -18,6 +19,7 @@ func DisplayPingResult(result models.PingResult) {
 	fmt.Println(result.Output)
 }
 
+// DisplayPingResults gibt die Ergebnisse mehrerer Pingvorgänge aus
 func DisplayPingResults(results []models.PingResult) {
 	fmt.Println("Live IPs:")
 	for _, result := range results {
@@ -25,6 +27,7 @@ func DisplayPingResults(results []models.PingResult) {
 	}
 }
 
+// usage ist die Hilfe zur Verwendung des Ping-Tools
 var usage = `
 Usage:
 
@@ -51,20 +54,24 @@ Examples:
     ping -s 100 1.1.1.1
 `
 
+// PrintUsage gibt die Hilfe zur Verwendung des Ping-Tools aus
 func PrintUsage() {
 	fmt.Print(usage)
 }
 
+// PrintPacketRecv gibt eine Nachricht aus, wenn ein Ping-Paket empfangen wurde
 func PrintPacketRecv(pkt *probing.Packet) {
 	fmt.Printf("%d bytes from %s: icmp_seq=%d time=%v ttl=%v\n",
 		pkt.Nbytes, pkt.IPAddr, pkt.Seq, pkt.Rtt, pkt.TTL)
 }
 
+// PrintPacketRecvDuplicate gibt eine Nachricht aus, wenn ein dupliziertes Ping-Paket empfangen wurde
 func PrintPacketRecvDuplicate(pkt *probing.Packet) {
 	fmt.Printf("%d bytes from %s: icmp_seq=%d time=%v ttl=%v (DUP!)\n",
 		pkt.Nbytes, pkt.IPAddr, pkt.Seq, pkt.Rtt, pkt.TTL)
 }
 
+// PrintPingStats gibt eine Zusammenfassung der Ping-Statistiken aus
 func PrintPingStats(stats *probing.Statistics) {
 	fmt.Printf("\n--- %s ping statistics ---\n", stats.Addr)
 	fmt.Printf("%d packets transmitted, %d packets received, %d duplicates, %v%% packet loss\n",
@@ -73,6 +80,7 @@ func PrintPingStats(stats *probing.Statistics) {
 		stats.MinRtt, stats.AvgRtt, stats.MaxRtt, stats.StdDevRtt)
 }
 
+// PrintError gibt eine Fehlermeldung aus
 func PrintError(format string, args ...interface{}) {
 	fmt.Fprintf(os.Stderr, format, args...)
 }
